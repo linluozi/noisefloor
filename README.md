@@ -33,7 +33,7 @@ noisefloor --version
 ## 三条复现命令
 
 ```bash
-python3 -m unittest discover -s tests -v
+PYTHONPATH=src python3 -m unittest discover -s tests -v
 PYTHONPATH=src python3 -m noisefloor aa --trials 200 --rounds 30 --terms 3000 --n-boot 400 --target 1.0 --json-out evidence/aa_real_alpha.json
 PYTHONPATH=src python3 bench/demo.py
 ```
@@ -85,7 +85,7 @@ PYTHONPATH=src python3 bench/demo.py
 
 | 闸门 | 要求 | 实测 | 复现命令 |
 |---|---|---|---|
-| 测试全绿 | 单元测试 0 失败 | **46 tests, OK**（4.7 s） | `python3 -m unittest discover -s tests -v` |
+| 测试全绿 | 单元测试 0 失败 | **46 tests, OK**（4.7 s） | `PYTHONPATH=src python3 -m unittest discover -s tests -v` |
 | 一刀未剪 | 随机种子/采样数/原始样本全部保留，无事后挑选 | `evidence/*.json` 含逐次原始数组 + `samples_sha256` | `PYTHONPATH=src python3 -m noisefloor verify evidence/demo_real.json` 类证书校验见下 |
 | 零依赖 | 不给用户加装包负担 | `dependencies = []`，仅标准库 | `pip install -e .` 后 `pip show noisefloor` |
 | 证书可离线复算 | 原始样本 → 结论可重放 | `verify` 重新校验 sha256 与裁决 | 见 `tests/test_cli.py::test_verify_detects_tampered_samples` |
