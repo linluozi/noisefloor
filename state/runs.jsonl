@@ -1,0 +1,1 @@
+{"direction":"algo","ts":"2026-11-16T08:55:00+08:00","upstream":null,"repo":"linluozi/noisefloor","speedup":null,"status":"published","reason":"原创库：A/A 空跑假阳性校准 + 重采样功效/MDE 的微基准声明级裁决；46 tests 全绿；真实语料重放给出 attrs/jsonpatch RETRACT 的功效证书（MDE 1.03-1.08x）。G1/G2/G3/G4 见 README；G5 未测（无上游补丁，不涉及内存改动）","checks":{"G1":true,"G2":true,"G3":true,"G4":true,"G5":false}}
