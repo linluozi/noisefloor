@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "noisefloor"
+version = "0.1.0"
+description = "Measure the noise floor of a microbenchmark before claiming a speedup (A/A false-positive calibration + minimum detectable effect)."
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "MIT"}
+authors = [{name = "linluozi"}]
+keywords = ["benchmark", "statistics", "bootstrap", "minimum-detectable-effect", "performance"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Topic :: Software Development :: Testing",
+]
+dependencies = []
+
+[project.scripts]
+noisefloor = "noisefloor.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
