@@ -12,3 +12,4 @@ dist/
 *.zip
 *.tar.gz
 *.tgz
+state/

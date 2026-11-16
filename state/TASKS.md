@@ -16,8 +16,18 @@
 - 发布自证：`gh api repos/linluozi/noisefloor` → `private=false`，`pushed_at=2026-11-16T00:10:39Z`；
   干净克隆 `/tmp/noisefloor-smoke` 按 README 第一条命令 `PYTHONPATH=src python3 -m unittest discover -s tests` → **46 tests OK (4.7s)**；
   README 前 40 行含「这是什么 / 怎么跑 / 证据」。
-- 独立复核：起了 1 个只读 verifier 子 agent，要求它独立复跑 46 tests、独立实现 A/A 校准 200 次、独立复算 Mann–Whitney 已知答案、独立从原始样本重算 croniter/attrs 的中位数比。
-  **到截止时它仍在运行，结论未回**——因此本轮不声称「已通过独立复核」；若它回来报 INCONSISTENT，须按 §7 在 README 顶部加未通过自检提示。这是本轮唯一未闭环项。
+- 独立复核：1 个只读 verifier 子 agent 已完成，**结论 CONSISTENT**（未发现编造/不一致）：
+  1) 它独立复跑 `PYTHONPATH=src python3 -m unittest discover -s tests -v` → 46 ok / 0 fail / 0 error（4.75s）；
+  2) 它用 `measure` + `decide` 自己写了 A/A 复现，独立跑 14 次共 **407/2800 = 14.5%**（单轮 10.0%–21.0%），
+     与产物里的单轮 8.5% 同量级但**偏高**，指出 8.5% 落在观测分布低端；
+  3) 它自写 midrank+tie+连续性修正的 Mann–Whitney 与 HF type-7，与 `tests/test_known_answers.py`
+     期望值（p=0.0121857803553449 / z=-2.5067182457620487；z=0,p=1.0；1.1）**逐位吻合**；
+  4) 它从原始样本独立重算 14 个 scale 的 median 比值，与 `evidence/replay_prrecheck.json` 全部 **relerr=0.0**，
+     并核对 croniter 4 个 scale 的 p=3.3918213908634698e-06 是 U=0 完全分离的正常值，非编造信号。
+- **复核驱动的修正（已 push）**：我据此把 README 的 A/A 校准从单轮 8.5% 改为
+  「单轮 8.5% / 本仓库 6 种子 15.6%（187/1200，10.5%–19.5%）/ 独立复核 14 次 14.5%（407/2800）/ 合计 **14.9%（594/4000）**」，
+  并新增 `bench/aa_multiseed.py` + `evidence/aa_multiseed.json`，把「单次校准本身也不可信」写成项目的第二个新结论。
+  修正后 HEAD=`pushed 2026-11-16T00:22:45Z`，干净克隆复跑仍 **46 tests OK**。
 - 上游回馈评估：**0 提案**。交付物是原创统计库而非对上游客源的补丁，`state/upstream-pr.json` 已写 no-proposal 说明。
 - 环境坑（沿用）：`/home/ubuntu/GitHub/pipelines/state` 对 agent 只读，`runs.jsonl`/`innovation.md`/`used-upstreams.txt` 写入被拒；
   本文件与 runs/innovation/used-upstreams 都写在 `state/` 下由执行器归档。
